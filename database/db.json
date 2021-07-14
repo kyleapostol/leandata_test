@@ -1,0 +1,38 @@
+  
+{
+    "users": [
+      { "id" : 1,
+        "fname": "John",
+        "lname": "Doe",
+        "expenses" : 1400,
+        "category" : {
+          "food" : 200,
+          "travel" : 300,
+          "health" : 400,
+          "supplies" : 500
+        }
+      },
+      { "id" : 2,
+        "fname": "Jane",
+        "lname": "Doe",
+        "expenses" : 1800,
+        "category" : {
+          "food" : 400,
+          "travel" : 300,
+          "health" : 500,
+          "supplies" : 600
+        }
+      },
+      { "id" : 3,
+        "fname": "Keith",
+        "lname": "Gill",
+        "expenses" : 1600,
+        "category" : {
+          "food" : 400,
+          "travel" : 300,
+          "health" : 500,
+          "supplies" : 400
+        }
+      }
+    ]
+}
