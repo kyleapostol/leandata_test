@@ -8,7 +8,7 @@ const App = () => {
 
   const [userList, setUserList] = useState([]);
   const [currentUser, setCurrentUser] = useState("select");
-  const [isDisabled, setIsDisabled] = useState(true);
+  const [isDisabled, setIsDisabled] = useState(false);
   const [newUser, setNewUser] = useState([])
 
   useEffect( () => {
@@ -19,14 +19,21 @@ const App = () => {
   }, []);
 
 
-  const postUser = (data) => {
-    fetch('"http://localhost:3001/api/users', {
+  const postUser = (first, last) => {
+    let data = {...first, ...last};
+    fetch("http://localhost:3001/api/users", {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify(data)
     })
     .then(res => res.json())
-    .then(obj => console.log(obj))
+    .then(obj => {
+      removeField();
+
+     let newArr = userList.concat(obj);
+      setUserList(newArr)
+      // setUserList([...userList, userList[userList.length -1] = obj]);
+    })
   }
 
   const handleChange = (e) => {
@@ -34,18 +41,25 @@ const App = () => {
   }
 
   const handleSubmit = (e) => {
-    console.log('handleSubmit', e.target.value)
     e.preventDefault();
   };
 
   const changeUser = (e) => {
-    console.log(e.target.value);
     setCurrentUser(e.target.value)
   }
 
+
+  //prevent from adding field multiple times
   const addField = () => {
-    let user = {};
-    setUserList([...userList, user]);
+    if(userList[userList.length - 1].id && userList[userList.length - 1].fname){
+      let user = {}; 
+      setUserList([...userList, user]);
+    }
+  }
+
+  const removeField = () => {
+    setUserList(userList.filter(item => item.id !== undefined));
+    return;
   }
 
   const editUser = (user) => {
@@ -56,12 +70,9 @@ const App = () => {
 
   }
 
-
-
-
   return (
     <>
-      <UserTable userList={userList} handleSubmit={handleSubmit} isDisabled={isDisabled} editUser={editUser} addField={addField} />
+      <UserTable userList={userList} handleSubmit={handleSubmit} isDisabled={isDisabled} editUser={editUser} addField={addField}  handleChange={handleChange} postUser={postUser}/>
       <ExpenseTable userList={userList} handleSubmit={handleSubmit} handleChange={handleChange} changeUser={changeUser} currentUser={currentUser}/>
       <CompanyTable userList={userList} currentUser={currentUser}/>
     </>

@@ -1,5 +1,4 @@
 const CompanyTable = ({userList, currentUser}) => {
-    console.log(userList, currentUser)
     if(currentUser !== "select"){
          return(
             <div className="container-md mt-4">
