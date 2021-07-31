@@ -8,7 +8,7 @@ const App = () => {
 
   const [userList, setUserList] = useState([]);
   const [currentUser, setCurrentUser] = useState("select");
-  const [isDisabled, setIsDisabled] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(true);
   const [newUser, setNewUser] = useState([])
 
   useEffect( () => {

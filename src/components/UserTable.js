@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
+import AddUserField from './AddUser'
 
 const UserTable = ({userList, isDisabled, editUser, addField, handleChange, postUser}) => {
 
   const [fname, setFname] = useState('');
   const [lname, setLname] = useState('');
+  const [addUser, setAddUser] = useState(false);
 
   const handleFnameChange = (e) => {
     setFname(e.target.value);
@@ -15,8 +17,10 @@ const UserTable = ({userList, isDisabled, editUser, addField, handleChange, post
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    postUser({"fname" : fname}, {"lname" : lname})
+    postUser({"fname" : fname}, {"lname" : lname});
+    setAddUser(false);
   }
+
     return(
       <div className="container-md">
         <h2>Users Table</h2>
@@ -38,27 +42,22 @@ const UserTable = ({userList, isDisabled, editUser, addField, handleChange, post
                     </td>
                     <td className="d-flex justify-content-between">
                       <input style={{"border" : "none"}} form="my_form" defaultValue={user.lname} onChange={handleLnameChange} disabled={isDisabled}/>
-                      {user.id ? 
                         <span>
                           <i style={{"cursor" : "pointer"}} className="bi bi-pencil-fill m-2" onClick={editUser}></i>
                           <i style={{"cursor" : "pointer"}} className="bi bi-trash-fill text-danger"></i>
-                        </span> :
-                        <span>
-                          <button type="button" className="btn btn-primary" onClick={handleSubmit}>Add</button>
                         </span>
-                      }
-
                     </td>
                     <td>{user.expenses}</td>
                   </tr>
                 )
               })}
+              <AddUserField addUser={addUser} handleFnameChange={handleFnameChange} handleLnameChange={handleLnameChange} handleSubmit={handleSubmit}></AddUserField>
           </tbody>
         </table>
-        <div className="col-2" style={{"cursor" : "pointer"}} onClick={addField}>
+        <div className="col-2" style={{"cursor" : "pointer"}} onClick={() => addUser ? setAddUser(false) : setAddUser(true)}>
             <span>
               <i className="bi bi-plus-lg"></i>
-              <span> Add User</span>
+              <span>Add User</span>
             </span>
           </div>
       </div>
